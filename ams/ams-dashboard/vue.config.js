@@ -24,7 +24,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const isProduction = ['production'].includes(process.env.NODE_ENV)
 const ENV = 'DEV'
 const ENV_HOST = {
-  DEV: 'http://sloth-commerce-test1.jd.163.org:29499/', // http://10.196.98.23:29099/
+  DEV: 'http://sloth-commerce-test1.jd.163.org:29499/', // http://10.196.98.23:1630/
   TEST: '',
   ONLINE: ''
 }

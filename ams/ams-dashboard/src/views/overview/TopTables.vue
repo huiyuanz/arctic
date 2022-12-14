@@ -45,11 +45,11 @@ const router = useRouter()
 
 const scrollY = ref<number>(302)
 const loading = ref<boolean>(false)
-const filterType = ref<string>('size')
 const filterOps = reactive([
   { value: 'size', label: t('size') },
   { value: 'files', label: t('files') }
 ])
+const filterType = ref<string>(filterOps[0].value)
 const columns = shallowReactive([
   { dataIndex: 'index', title: t('numIndex'), ellipsis: true, width: 60 },
   { dataIndex: 'tableNameOnly', title: t('table'), ellipsis: true, scopedSlots: { customRender: 'tableNameOnly' } },

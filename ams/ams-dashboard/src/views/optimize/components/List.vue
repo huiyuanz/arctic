@@ -20,7 +20,7 @@
           </span>
         </template>
         <template v-if="column.dataIndex === 'optimizeStatus'">
-          <span :style="{'background-color': (STATUS_CONFIG[record.optimizeStatus] || {}).color}" class="status-icon"></span>
+          <span :style="{'background-color': (OPTIMIZING_STATUS_CONFIG[record.optimizeStatus] || {}).color}" class="status-icon"></span>
           <span>{{ record.optimizeStatus }}</span>
         </template>
         <template v-if="column.dataIndex === 'operation'">
@@ -35,7 +35,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref, shallowReactive, watch } from 'vue'
-import { IOptimizeResourceTableItem, IOptimizeTableItem } from '@/types/common.type'
+import { IOptimizeResourceTableItem, IOptimizeTableItem, OPTIMIZING_STATUS_CONFIG } from '@/types/common.type'
 import { getOptimizerResourceList, getOptimizerTableList, releaseResource } from '@/services/optimize.service'
 import { useI18n } from 'vue-i18n'
 import { usePagination } from '@/hooks/usePagination'
@@ -50,13 +50,6 @@ const props = defineProps<{ curGroupName: string, type: string }>()
 const emit = defineEmits<{
  (e: 'refreshCurGroupInfo'): void
 }>()
-const STATUS_CONFIG = shallowReactive({
-  pending: { title: 'pending', color: '#ffcc00' },
-  idle: { title: 'idle', color: '#c9cdd4' },
-  minor: { title: 'minor', color: '#0ad787' },
-  major: { title: 'major', color: '#0ad787' },
-  full: { title: 'full', color: '#0ad787' }
-})
 
 const loading = ref<boolean>(false)
 const releaseLoading = ref<boolean>(false)

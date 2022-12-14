@@ -19,8 +19,7 @@ const props = withDefaults(defineProps<{
   height: '350px',
   data: {
     timeLine: [],
-    data1: [],
-    data2: []
+    data1: []
   }
 })
 
@@ -43,17 +42,15 @@ watch(
 
 const lineChartOptions = reactive({})
 
-const seriesData = []
-
 function initData() {
-  const { data1 = [], data2 = [] } = props.data
+  const seriesData = []
+  const { data1 = [] } = props.data
   const { name, colors } = props.dataInfo
   const result = []
-  if (!data1.length || !data2.length) {
+  if (!data1.length) {
     return result
   }
   seriesData.push(data1)
-  seriesData.push(data2)
   for (let i = 0; i < seriesData.length; i++) {
     result.push({
       name: name[i],
@@ -69,21 +66,21 @@ function initData() {
   }
   return result
 }
-function getLegend(data = seriesData || []) {
+function getLegend() {
   return {
-    show: data.length > 1,
+    show: true,
     selectedMode: 'series',
-    bottom: '16',
+    bottom: '12',
     icon: 'rect',
     itemWidth: 10,
-    itemHeight: 10,
+    itemHeight: 2,
     itemGap: 32,
     padding: [8, 0, 0, 0]
   }
 }
 
-function getGrid(data = seriesData || []) {
-  return { left: 50, top: props.dataInfo.yTitle ? 52 : 20, right: 50, bottom: data.length > 1 ? 68 : 35 }
+function getGrid() {
+  return { left: 50, top: props.dataInfo.yTitle ? 52 : 20, right: 50, bottom: 64 }
 }
 
 function setOptionData() {
@@ -101,7 +98,7 @@ function setOptionData() {
         lineHeight: 20,
         fontWeight: 'normal'
       },
-      formatter: props.tipFormat
+      formatter: props.tipFormat || undefined
     },
     xAxis: {
       type: 'category',

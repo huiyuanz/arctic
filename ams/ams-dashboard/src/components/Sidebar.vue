@@ -71,11 +71,11 @@ export default defineComponent({
         }
       ]
       const allMenu : MenuItem[] = [
-        // {
-        //   key: 'overview',
-        //   title: t('overview'),
-        //   icon: 'overview'
-        // },
+        {
+          key: 'overview',
+          title: t('overview'),
+          icon: 'overview'
+        },
         {
           key: 'tables',
           title: t('tables'),

@@ -235,7 +235,7 @@ export interface ITimeInfo {
 export interface IChartLineData {
   timeLine: string[]
   data1: number[] | string[]
-  data2: number[] | string[]
+  data2?: number[] | string[]
 }
 
 export interface ITopTableItem {
@@ -277,4 +277,12 @@ export enum upgradeStatusMap {
   upgrading = 'UPGRADING',
   success = 'SUCCESS',
   none = 'NONE' // can upgrade
+}
+
+export const OPTIMIZING_STATUS_CONFIG = {
+  pending: { title: 'pending', color: '#ffcc00' },
+  idle: { title: 'idle', color: '#c9cdd4' },
+  minor: { title: 'minor', color: '#0ad787' },
+  major: { title: 'major', color: '#0ad787' },
+  full: { title: 'full', color: '#0ad787' }
 }

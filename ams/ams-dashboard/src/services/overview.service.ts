@@ -39,11 +39,24 @@ export function getTopTables(params: {
 }
 
 export function getOptimizeResource(params: {
-  startTime: number
-  endTime: number
+  startTime: string
+  endTime: string
 }): Promise<IResourceUsage> {
   const { startTime, endTime } = params
   return request.get('ams/v1/overview/metric/optimize/resource', {
+    params: {
+      startTime,
+      endTime
+    }
+  })
+}
+
+export function getDataSizeChartData(params: {
+  startTime: string
+  endTime: string
+}): Promise<IResourceUsage> {
+  const { startTime, endTime } = params
+  return request.get('ams/v1/overview/metric/datasize', {
     params: {
       startTime,
       endTime

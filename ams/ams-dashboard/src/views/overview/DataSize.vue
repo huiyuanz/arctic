@@ -1,10 +1,10 @@
 <template>
-  <div class="resource-occupation g-mr-16">
+  <div class="data-size-wrap g-mr-16">
     <div class="common-header">
-      <span class="name">{{`${$t('optimizingCPUUsage')} (%)`}}</span>
+      <span class="name">{{$t('dataSize')}}</span>
       <TimeSelect @timeChange="handleTimeChange" />
     </div>
-    <LineChart :data="chartLineData" :dataInfo="dataInfo" :tipFormat="cpuFormat" :loading="loading" />
+    <LineChart :data="chartLineData" :dataInfo="dataInfo" :tipFormat="tipFormat" :loading="loading" />
   </div>
 </template>
 
@@ -13,7 +13,7 @@ import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import LineChart from './LineChart.vue'
 import TimeSelect from './TimeSelect.vue'
-import { getOptimizeResource } from '@/services/overview.service'
+import { getDataSizeChartData } from '@/services/overview.service'
 import { ITimeInfo, IChartLineData } from '@/types/common.type'
 
 const { t } = useI18n()
@@ -26,14 +26,12 @@ const chartLineData = reactive<IChartLineData>(
 )
 const dataInfo = reactive<ITimeInfo>({
   yTitle: '',
-  colors: ['#5B8FF9'],
-  name: [t('cpu')]
+  colors: ['#5E82C2'],
+  name: [t('data')]
 })
 
 const startTime = ref<string>()
 const endTime = ref<string>()
-
-const hoverDatas = reactive([])
 
 function handleTimeChange(val) {
   const { start, end } = val
@@ -45,30 +43,27 @@ function handleTimeChange(val) {
 async function getLineChartData() {
   try {
     loading.value = true
-    const res = await getOptimizeResource({
+    const res = await getDataSizeChartData({
       startTime: startTime.value,
       endTime: endTime.value
     })
-    hoverDatas.length = 0
-    const { timeLine, usedCpu, usedCpuPercent, usedCpuDivision = [] } = res
+    const { timeLine, size } = res
     chartLineData.timeLine = timeLine
-    chartLineData.data1 = usedCpu
-    hoverDatas.push([usedCpuPercent, usedCpuDivision])
+    chartLineData.data1 = size
   } finally {
     loading.value = false
   }
 }
-
-function cpuFormat(data) {
+function tipFormat(data) {
   let str = `<span style="font-size: 10px">${data[0].axisValue}</span><br/>`
   for (let i = 0; i < data.length; i++) {
-    str += `<span style="display: inline-block;background-color:${data[i].color}; margin-right: 6px; width: 6px;height: 6px;"></span>${data[i].seriesName}: ${hoverDatas[i][0][data[i].dataIndex]}<br/><span style="line-height: 16px;margin-left: 12px;">${hoverDatas[i][1][data[i].dataIndex]}</span><br/>`
+    str += `<span style="display: inline-block;background-color:${data[i].color}; margin-right: 6px; width: 6px;height: 6px;"></span>${data[i].seriesName}: ${data[i].value} G`
   }
   return str
 }
 </script>
 <style lang="less" scoped>
-.resource-occupation {
+.data-size-wrap {
   padding: 0 24px 16px;
   display: flex;
   width: 50%;
