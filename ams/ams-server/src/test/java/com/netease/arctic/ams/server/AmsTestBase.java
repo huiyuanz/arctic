@@ -76,8 +76,6 @@ import com.netease.arctic.ams.server.util.DerbyTestUtil;
 import com.netease.arctic.ams.server.utils.CatalogUtil;
 import com.netease.arctic.ams.server.utils.JDBCSqlSessionFactoryProvider;
 import com.netease.arctic.ams.server.utils.SequenceNumberFetcherTest;
-import com.netease.arctic.ams.server.utils.ThreadPool;
-import com.netease.arctic.ams.server.utils.SequenceNumberFetcherTest;
 import com.netease.arctic.ams.server.utils.UnKeyedTableUtilTest;
 import com.netease.arctic.catalog.ArcticCatalog;
 import com.netease.arctic.catalog.CatalogLoader;
@@ -214,7 +212,10 @@ public class AmsTestBase {
     when(ArcticMetaStore.getSystemSettingFromYaml()).thenAnswer((Answer<LinkedHashMap<String,Object>>) x ->
             new LinkedHashMap<String, Object>(){{
               put("a", "b");
-              put("a", "b");
+              put("b", true);
+              Map<String, String> mapType = new HashMap<>();
+              mapType.put("c1", "v1");
+              put("c", mapType);
             }});
     mockStatic(ServiceContainer.class);
     mockStatic(CatalogMetadataService.class);

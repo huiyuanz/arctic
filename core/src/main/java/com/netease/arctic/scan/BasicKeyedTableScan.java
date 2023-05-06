@@ -97,12 +97,12 @@ public class BasicKeyedTableScan implements KeyedTableScan {
   public CloseableIterable<CombinedScanTask> planTasks() {
     // base file
     CloseableIterable<ArcticFileScanTask> baseFileList;
-    baseFileList = table.io().doAs(this::planBaseFiles);
+    baseFileList = planBaseFiles();
 
     // change file
     CloseableIterable<ArcticFileScanTask> changeFileList;
     if (table.primaryKeySpec().primaryKeyExisted()) {
-      changeFileList = table.io().doAs(this::planChangeFiles);
+      changeFileList = planChangeFiles();
     } else {
       changeFileList = CloseableIterable.empty();
     }
@@ -129,7 +129,7 @@ public class BasicKeyedTableScan implements KeyedTableScan {
     CloseableIterable<FileScanTask> fileScanTasks = scan.planFiles();
     return CloseableIterable.transform(fileScanTasks,
         fileScanTask -> new BasicArcticFileScanTask(DefaultKeyedFile.parseBase(fileScanTask.file()),
-            fileScanTask.deletes(), fileScanTask.spec()));
+            fileScanTask.deletes(), fileScanTask.spec(), expression));
   }
 
   private CloseableIterable<ArcticFileScanTask> planChangeFiles() {
